@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evolusi & Tren Ilmu Pemasaran Modern</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #FDFBF7; /* Warm neutral background */
+            color: #334155; /* Slate 700 for text */
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #F1F5F9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #CBD5E1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94A3B8;
+        }
+
+        /* Chart Container Strict Styling */
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+
+        /* Interactive Card Hover Effects */
+        .info-card {
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+        }
+        .info-card:hover, .info-card.active {
+            background-color: #FFFFFF;
+            border-left: 4px solid #EA580C; /* Orange-600 */
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            transform: translateX(4px);
+        }
+
+        .nav-btn.active {
+            background-color: #EA580C;
+            color: white;
+        }
+    </style>
+    <!-- Chosen Palette: Warm Neutrals & Earthy Accents -->
+    <!-- Background: #FDFBF7 (Off-white/Cream) -->
+    <!-- Text: #334155 (Slate Grey) -->
+    <!-- Primary Accent: #EA580C (Burnt Orange) -->
+    <!-- Secondary Accent: #14B8A6 (Teal) -->
+</head>
+<body class="antialiased min-h-screen flex flex-col">
+
+    <!-- Application Structure Plan:
+         1. Header: Title and brief context.
+         2. Navigation: Sticky sub-nav to jump between logical sections (Evolusi, Data, Strategi, Riset).
+         3. Section 1: The Evolution (Interactive Timeline). Users click through Marketing 1.0 to 5.0 to see the shift in philosophy.
+         4. Section 2: Current Landscape (Dashboard). Two charts showing tech adoption and consumer values.
+         5. Section 3: Modern Mix (Interactive Grid). Comparison of 4P (Old) vs 4C/SAVE (New).
+         6. Section 4: Research Methods. Text-heavy but organized cards explaining Netnography, Big Data, etc.
+         This structure moves from history -> current data -> practical application -> academic methodology, mirroring a research learning path.
+    -->
+
+    <!-- Header -->
+    <header class="bg-white border-b border-stone-200 sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <div class="w-8 h-8 bg-orange-600 rounded flex items-center justify-center text-white font-bold text-xl">P</div>
+                <h1 class="text-xl font-bold tracking-tight text-slate-800">Insight Pemasaran Modern</h1>
+            </div>
+            <nav class="hidden md:flex gap-6 text-sm font-medium text-slate-500">
+                <button onclick="scrollToSection('evolution')" class="hover:text-orange-600 transition-colors">Evolusi</button>
+                <button onclick="scrollToSection('trends')" class="hover:text-orange-600 transition-colors">Tren Data</button>
+                <button onclick="scrollToSection('strategy')" class="hover:text-orange-600 transition-colors">Strategi Baru</button>
+                <button onclick="scrollToSection('research')" class="hover:text-orange-600 transition-colors">Metodologi Riset</button>
+            </nav>
+        </div>
+    </header>
+
+    <main class="flex-grow p-4 sm:p-8 space-y-12 max-w-6xl mx-auto w-full">
+
+        <!-- Intro -->
+        <section class="text-center max-w-3xl mx-auto space-y-4">
+            <h2 class="text-3xl md:text-4xl font-bold text-slate-800">Transformasi Ilmu Pemasaran</h2>
+            <p class="text-slate-600 leading-relaxed">
+                Analisis mendalam mengenai pergeseran paradigma pemasaran dari era tradisional menuju era <span class="font-semibold text-orange-600">Marketing 5.0</span>.
+                Jelajahi bagaimana teknologi, data, dan humanisme membentuk strategi pasar saat ini.
+            </p>
+        </section>
+
+        <!-- Section 1: Evolution Timeline -->
+        <!-- Visualization & Content Choices:
+             Goal: Show the progression of marketing philosophy.
+             Method: Interactive Tabs/Timeline.
+             Interaction: Click on a "Version" (1.0 - 5.0) updates the description panel.
+             Justification: Text-heavy historical context is best digested in chunks rather than a long list.
+        -->
+        <section id="evolution" class="bg-white rounded-2xl p-6 shadow-sm border border-stone-100">
+            <div class="mb-6">
+                <h3 class="text-2xl font-bold text-slate-800 mb-2">Evolusi Paradigma</h3>
+                <p class="text-sm text-slate-500">Klik pada era di bawah ini untuk melihat karakteristik utama setiap fase perkembangan pemasaran.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+                <!-- Timeline Buttons -->
+                <div class="md:col-span-4 flex flex-col gap-2">
+                    <button onclick="updateTimeline(1)" id="btn-1" class="nav-btn w-full text-left px-4 py-3 rounded-lg bg-stone-50 hover:bg-stone-100 font-medium transition-colors border-l-4 border-transparent active">Marketing 1.0: Product Centric</button>
+                    <button onclick="updateTimeline(2)" id="btn-2" class="nav-btn w-full text-left px-4 py-3 rounded-lg bg-stone-50 hover:bg-stone-100 font-medium transition-colors border-l-4 border-transparent">Marketing 2.0: Customer Centric</button>
+                    <button onclick="updateTimeline(3)" id="btn-3" class="nav-btn w-full text-left px-4 py-3 rounded-lg bg-stone-50 hover:bg-stone-100 font-medium transition-colors border-l-4 border-transparent">Marketing 3.0: Human Centric</button>
+                    <button onclick="updateTimeline(4)" id="btn-4" class="nav-btn w-full text-left px-4 py-3 rounded-lg bg-stone-50 hover:bg-stone-100 font-medium transition-colors border-l-4 border-transparent">Marketing 4.0: Digital Transition</button>
+                    <button onclick="updateTimeline(5)" id="btn-5" class="nav-btn w-full text-left px-4 py-3 rounded-lg bg-stone-50 hover:bg-stone-100 font-medium transition-colors border-l-4 border-transparent">Marketing 5.0: Tech for Humanity</button>
+                </div>
+
+                <!-- Content Panel -->
+                <div class="md:col-span-8 bg-stone-50 rounded-xl p-6 flex flex-col justify-center">
+                    <div id="timeline-content">
+                        <!-- Dynamic Content Loaded Here -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: Data Trends -->
+        <!-- Visualization & Content Choices:
+             Goal: Visualizing quantitative trends in adoption and priorities.
+             Method: Chart.js Bar and Doughnut charts.
+             Interaction: Hover for specific percentages.
+             Justification: Visual comparison of "Tech Investment" and "Consumer Priorities" allows quick synthesis of the current landscape.
+        -->
+        <section id="trends" class="space-y-6">
+            <div>
+                <h3 class="text-2xl font-bold text-slate-800 mb-2">Tren & Data Terkini</h3>
+                <p class="text-slate-600 max-w-3xl">
+                    Bagian ini menyajikan data kuantitatif mengenai adopsi teknologi oleh pemasar (Marketers) dan pergeseran prioritas nilai oleh konsumen modern.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Chart 1: MarTech Adoption -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-stone-100">
+                    <h4 class="text-lg font-semibold mb-4 text-slate-700">Prioritas Investasi Teknologi (2024-2025)</h4>
+                    <div class="chart-container">
+                        <canvas id="techChart"></canvas>
+                    </div>
+                    <p class="text-xs text-center text-slate-400 mt-4">Sumber: Simulasi Data Riset Industri Pemasaran Global</p>
+                </div>
+
+                <!-- Chart 2: Consumer Values -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-stone-100">
+                    <h4 class="text-lg font-semibold mb-4 text-slate-700">Faktor Penentu Keputusan Konsumen</h4>
+                    <div class="chart-container">
+                        <canvas id="consumerChart"></canvas>
+                    </div>
+                    <p class="text-xs text-center text-slate-400 mt-4">Analisis Sentimen Konsumen Gen Z & Millennial</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: New Strategy Mix -->
+        <!-- Visualization & Content Choices:
+             Goal: Compare traditional frameworks with modern ones.
+             Method: Interactive comparison cards.
+             Interaction: Clicking "Tradisional" vs "Modern" toggles the text content.
+             Justification: Direct comparison clarifies how the "4Ps" have evolved into "4Cs" or "SAVE".
+        -->
+        <section id="strategy">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-6 gap-4">
+                <div>
+                    <h3 class="text-2xl font-bold text-slate-800 mb-2">Redefinisi Bauran Pemasaran</h3>
+                    <p class="text-slate-600">Pergeseran dari perspektif penjual (4P) menuju perspektif pelanggan dan nilai (4C / SAVE).</p>
+                </div>
+                <div class="bg-stone-100 p-1 rounded-lg flex gap-1">
+                    <button onclick="setStrategyMode('classic')" id="btn-classic" class="px-4 py-2 rounded-md text-sm font-medium bg-white shadow-sm text-orange-600 transition-all">Tradisional (4P)</button>
+                    <button onclick="setStrategyMode('modern')" id="btn-modern" class="px-4 py-2 rounded-md text-sm font-medium text-slate-500 hover:text-slate-700 transition-all">Modern (4C)</button>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4" id="strategy-grid">
+                <!-- Cards injected via JS -->
+            </div>
+        </section>
+
+        <!-- Section 4: Modern Research Methodology -->
+        <!-- Visualization & Content Choices:
+             Goal: Explain complex research methodologies.
+             Method: Grid of text cards with distinct iconography (Unicode).
+             Interaction: None (Information Display).
+             Justification: Clear segmentation of distinct methodologies helps in readability.
+        -->
+        <section id="research" class="bg-orange-50 rounded-3xl p-8">
+            <div class="mb-8">
+                <h3 class="text-2xl font-bold text-slate-800 mb-2">Metodologi Riset Pemasaran Baru</h3>
+                <p class="text-slate-700">
+                    Penelitian pemasaran tidak lagi hanya bergantung pada survei dan FGD. Era digital membuka pintu bagi metode observasi yang lebih dalam dan akurat.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow">
+                    <div class="text-3xl mb-3">🌐</div>
+                    <h4 class="font-bold text-slate-800 mb-2">Netnografi</h4>
+                    <p class="text-sm text-slate-600">
+                        Adaptasi etnografi untuk mempelajari perilaku budaya komunitas online. Menganalisis forum, komentar media sosial, dan interaksi digital untuk memahami "suku" konsumen secara natural.
+                    </p>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow">
+                    <div class="text-3xl mb-3">🧠</div>
+                    <h4 class="font-bold text-slate-800 mb-2">Neuromarketing</h4>
+                    <p class="text-sm text-slate-600">
+                        Penggunaan teknologi neurosains (EEG, Eye-tracking) untuk mengukur respons fisiologis dan kognitif konsumen terhadap stimulus pemasaran, melampaui apa yang mereka "katakan".
+                    </p>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow">
+                    <div class="text-3xl mb-3">📊</div>
+                    <h4 class="font-bold text-slate-800 mb-2">Predictive Analytics</h4>
+                    <p class="text-sm text-slate-600">
+                        Memanfaatkan Big Data dan Machine Learning untuk memprediksi tren masa depan dan perilaku pembelian individu berdasarkan pola data historis yang masif.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-slate-800 text-slate-300 py-12 mt-12">
+        <div class="max-w-6xl mx-auto px-4 text-center">
+            <p class="font-medium text-white mb-2">Canvas Create Webapp</p>
+            <p class="text-sm opacity-60">Visualisasi Interaktif Ilmu Pemasaran &copy; 2024</p>
+        </div>
+    </footer>
+
+    <script>
+        // --- Data Definitions ---
+
+        // 1. Evolution Data
+        const evolutionData = {
+            1: {
+                title: "Marketing 1.0: Era Produk",
+                era: "Era Revolusi Industri",
+                focus: "Produk & Produksi Massal",
+                desc: "Fokus utama adalah menciptakan produk sebaik mungkin dengan biaya serendah mungkin. Pemasaran bersifat satu arah (one-to-many).",
+                key: "4P (Product, Price, Place, Promotion) lahir di era ini."
+            },
+            2: {
+                title: "Marketing 2.0: Era Konsumen",
+                era: "Era Teknologi Informasi",
+                focus: "Kepuasan Pelanggan & Segmentasi",
+                desc: "Konsumen menjadi lebih pintar dan memiliki banyak pilihan. Pemasar mulai melakukan segmentasi pasar dan targeting untuk memenuhi kebutuhan spesifik.",
+                key: "Konsumen adalah Raja. Fokus pada retensi pelanggan."
+            },
+            3: {
+                title: "Marketing 3.0: Era Manusia (Values)",
+                era: "Era Media Baru",
+                focus: "Nilai, Visi, & Misi",
+                desc: "Konsumen tidak hanya mencari kepuasan fungsional, tetapi juga pemenuhan spiritual dan sosial. Merek harus memiliki nilai yang manusiawi.",
+                key: "Sustainability dan CSR menjadi inti strategi."
+            },
+            4: {
+                title: "Marketing 4.0: Peralihan Digital",
+                era: "Era Ekonomi Digital",
+                focus: "Kolaborasi Offline & Online",
+                desc: "Menggabungkan sentuhan interaksi offline dengan kenyamanan online. Perjalanan pelanggan (Customer Journey) menjadi non-linear (5A: Aware, Appeal, Ask, Act, Advocate).",
+                key: "Omnichannel dan Content Marketing."
+            },
+            5: {
+                title: "Marketing 5.0: Teknologi untuk Kemanusiaan",
+                era: "Era AI & IoT",
+                focus: "Next Tech & Customer Experience",
+                desc: "Penerapan teknologi peniru manusia (AI, NLP, Sensor) untuk menciptakan, mengomunikasikan, dan memberikan nilai di seluruh perjalanan pelanggan.",
+                key: "Data-driven marketing + Agile marketing."
+            }
+        };
+
+        // 2. Strategy Comparison Data
+        const strategyData = {
+            classic: [
+                { title: "Product", icon: "📦", desc: "Fokus pada fitur, kualitas, dan desain barang yang dijual." },
+                { title: "Price", icon: "🏷️", desc: "Strategi penetapan harga berdasarkan biaya dan kompetisi." },
+                { title: "Place", icon: "📍", desc: "Saluran distribusi fisik dan logistik ketersediaan barang." },
+                { title: "Promotion", icon: "📢", desc: "Iklan, PR, dan promosi penjualan satu arah." }
+            ],
+            modern: [
+                { title: "Co-creation (Customer)", icon: "🤝", desc: "Melibatkan pelanggan dalam pengembangan solusi/produk." },
+                { title: "Currency (Cost)", icon: "💳", desc: "Biaya total kepemilikan dan nilai tukar yang dinamis." },
+                { title: "Communal Activation", icon: "🌐", desc: "Akses peer-to-peer dan ketersediaan instan di mana saja." },
+                { title: "Conversation", icon: "💬", desc: "Dialog dua arah, interaksi, dan keterlibatan komunitas." }
+            ]
+        };
+
+        // --- Logic & Functions ---
+
+        // Initialize Timeline
+        function updateTimeline(id) {
+            // Update buttons styling
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('active', 'bg-orange-500', 'text-white', 'border-orange-600');
+                btn.classList.add('bg-stone-50', 'text-slate-600', 'border-transparent');
+            });
+            const activeBtn = document.getElementById(`btn-${id}`);
+            activeBtn.classList.remove('bg-stone-50', 'text-slate-600', 'border-transparent');
+            activeBtn.classList.add('active', 'bg-orange-600', 'text-white', 'border-l-4', 'border-orange-800'); // Custom active styles
+
+            // Update Content with animation
+            const contentDiv = document.getElementById('timeline-content');
+            contentDiv.style.opacity = '0';
+            
+            setTimeout(() => {
+                const data = evolutionData[id];
+                contentDiv.innerHTML = `
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="px-3 py-1 bg-teal-100 text-teal-800 rounded-full text-xs font-bold uppercase tracking-wide">${data.era}</span>
+                        <span class="px-3 py-1 bg-orange-100 text-orange-800 rounded-full text-xs font-bold uppercase tracking-wide">${data.focus}</span>
+                    </div>
+                    <h2 class="text-3xl font-bold text-slate-800 mb-4">${data.title}</h2>
+                    <p class="text-lg text-slate-600 leading-relaxed mb-6">${data.desc}</p>
+                    <div class="p-4 bg-white border-l-4 border-teal-500 rounded shadow-sm">
+                        <p class="font-semibold text-slate-700">💡 Inti Konsep:</p>
+                        <p class="text-slate-600 italic">${data.key}</p>
+                    </div>
+                `;
+                contentDiv.style.opacity = '1';
+                contentDiv.style.transition = 'opacity 0.3s ease-in';
+            }, 200);
+        }
+
+        // Initialize Strategy Grid
+        function setStrategyMode(mode) {
+            const grid = document.getElementById('strategy-grid');
+            const btnClassic = document.getElementById('btn-classic');
+            const btnModern = document.getElementById('btn-modern');
+
+            // Toggle Button Styles
+            if (mode === 'classic') {
+                btnClassic.classList.add('bg-white', 'shadow-sm', 'text-orange-600');
+                btnClassic.classList.remove('text-slate-500');
+                btnModern.classList.remove('bg-white', 'shadow-sm', 'text-orange-600');
+                btnModern.classList.add('text-slate-500');
+            } else {
+                btnModern.classList.add('bg-white', 'shadow-sm', 'text-orange-600');
+                btnModern.classList.remove('text-slate-500');
+                btnClassic.classList.remove('bg-white', 'shadow-sm', 'text-orange-600');
+                btnClassic.classList.add('text-slate-500');
+            }
+
+            // Render Cards
+            grid.innerHTML = '';
+            strategyData[mode].forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'info-card bg-white p-5 rounded-xl border border-stone-200 cursor-default';
+                card.innerHTML = `
+                    <div class="text-4xl mb-3">${item.icon}</div>
+                    <h4 class="font-bold text-lg text-slate-800 mb-2">${item.title}</h4>
+                    <p class="text-sm text-slate-600">${item.desc}</p>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // Chart.js Initialization
+        document.addEventListener('DOMContentLoaded', () => {
+            // Init Defaults
+            updateTimeline(5); // Start with latest
+            setStrategyMode('modern'); // Start with modern
+
+            // Chart 1: MarTech Priorities
+            const ctxTech = document.getElementById('techChart').getContext('2d');
+            new Chart(ctxTech, {
+                type: 'bar',
+                data: {
+                    labels: ['AI & Machine Learning', 'Data Analytics', 'CRM & Automasi', 'Content Tools', 'AR/VR/Metaverse'],
+                    datasets: [{
+                        label: '% Pemasar Berencana Investasi',
+                        data: [78, 65, 55, 42, 28],
+                        backgroundColor: [
+                            '#EA580C', // Orange 600
+                            '#F97316',
+                            '#FB923C',
+                            '#FDBA74',
+                            '#FED7AA'
+                        ],
+                        borderRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            backgroundColor: '#334155',
+                            padding: 12
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100,
+                            grid: { color: '#F1F5F9' }
+                        },
+                        x: {
+                            grid: { display: false }
+                        }
+                    }
+                }
+            });
+
+            // Chart 2: Consumer Values
+            const ctxConsumer = document.getElementById('consumerChart').getContext('2d');
+            new Chart(ctxConsumer, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Personalisasi', 'Keberlanjutan (Eco)', 'Harga/Nilai', 'Kemudahan Akses', 'Privasi Data'],
+                    datasets: [{
+                        data: [30, 25, 20, 15, 10],
+                        backgroundColor: [
+                            '#14B8A6', // Teal 500
+                            '#2DD4BF',
+                            '#5EEAD4',
+                            '#99F6E4',
+                            '#CCFBF1'
+                        ],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'right',
+                            labels: { boxWidth: 12, font: { size: 11 } }
+                        }
+                    }
+                }
+            });
+        });
+
+        // Smooth Scroll
+        function scrollToSection(id) {
+            const el = document.getElementById(id);
+            if(el) {
+                const headerOffset = 80;
+                const elementPosition = el.getBoundingClientRect().top;
+                const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                window.scrollTo({ top: offsetPosition, behavior: "smooth" });
+            }
+        }
+    </script>
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+</body>
+</html>
